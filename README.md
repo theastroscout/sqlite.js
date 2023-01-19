@@ -17,16 +17,18 @@ import SQLite from "@surfy/sqlite";
 
 const sql = new SQLite('PATH TO DB FILE');
 ```
+<br/>
 
-## Run
+### Run
 ```js
 
 await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);");
 await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record');");
 
 ````
+<br/>
 
-## Get
+### Get
 Return rows or false if error occured
 
 ```js
@@ -35,8 +37,9 @@ let rows = await sql.get("SELECT * FROM test_table WHERE id=1");
 console.log(rows);
 
 ````
+<br/>
 
-## All
+### All
 Return rows or false if error occured
 
 ```js
@@ -45,8 +48,9 @@ let rows = await sql.all("SELECT * FROM test_table");
 console.log(rows);
 
 ````
+<br/>
 
-## Truncate
+### Truncate
 Truncate table and reset Auto Increment
 
 ```js
@@ -54,8 +58,9 @@ Truncate table and reset Auto Increment
 await sql.truncate("test_table");
 
 ````
+<br/>
 
-## Get SQLite3
+### Get SQLite3
 Return original SQLite3 object
 
 ```js
