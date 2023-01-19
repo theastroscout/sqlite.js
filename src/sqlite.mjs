@@ -6,6 +6,7 @@ Inspired by https://www.npmjs.com/package/sqlite3
 
 */
 
+import fs from 'node:fs';
 import sqlite3 from 'sqlite3';
 
 class SQLite {
@@ -133,6 +134,21 @@ class SQLite {
 				resolve(false);
 			}
 		});
+	}
+
+	/*
+
+	Remove DB
+
+	*/
+
+	removeDB(){
+		if(fs.existsSync(this.path)){
+			fs.unlinkSync(this.path);
+			return true;
+		}
+
+		return false;
 	}
 };
 

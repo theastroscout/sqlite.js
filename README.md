@@ -50,12 +50,29 @@ console.log(rows);
 ````
 <br/>
 
-### Truncate
+### Truncate table
 Truncate table and reset Auto Increment
 
 ```js
 
 await sql.truncate("test_table");
+
+````
+<br/>
+
+### Remove DB file
+Remove loaded DB file.
+
+```js
+
+let result = await sql.remove();
+
+/*
+
+@Result
+	False if DB file does not exist
+	True If successful
+*/
 
 ````
 <br/>
