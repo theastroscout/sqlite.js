@@ -7,6 +7,7 @@ Inspired by https://www.npmjs.com/package/sqlite3
 */
 
 import fs from 'node:fs';
+import path from 'node:path';
 import sqlite3 from 'sqlite3';
 
 class SQLite {
@@ -143,7 +144,9 @@ class SQLite {
 	*/
 
 	removeDB(){
+		// console.log(path.join(__dirname, this.path))
 		if(fs.existsSync(this.path)){
+			this.obj.close();
 			fs.unlinkSync(this.path);
 			return true;
 		}

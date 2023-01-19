@@ -1,0 +1,25 @@
+{
+	"name": "@surfy/sqlite",
+	"version": "1.0.0",
+	"description": "Asynchronous Library for sqlite3",
+	"main": "src/sqlite.mjs",
+	"scripts": {
+		"test": "node test/test.mjs"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/theastroscout/SQLite.git"
+	},
+	"author": {
+		"name": "Alexander Yermolenko",
+		"url": "https://surfy.one"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/theastroscout/SQLite/issues"
+	},
+	"homepage": "https://surfy.one/developers/opensource/SQLite",
+	"dependencies": {
+		"sqlite3": "^5.1.4"
+	}
+}
