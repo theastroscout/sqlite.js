@@ -18,6 +18,10 @@ import SQLite from "@surfy/sqlite";
 const sql = new SQLite('PATH TO DB FILE');
 ```
 <br/>
+<br/>
+
+## Methods
+<br/>
 
 ### Run
 ```js
@@ -65,7 +69,7 @@ Remove loaded DB file.
 
 ```js
 
-let result = await sql.remove();
+let result = await sql.removeDB();
 
 /*
 
