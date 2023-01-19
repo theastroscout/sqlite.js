@@ -109,6 +109,30 @@ class SQLite {
 
 	/*
 
+	Drop table if exists
+
+	*/
+	drop(tableName){
+
+		return new Promise(resolve => {
+			try {
+				this.obj.run(`DROP TABLE IF EXISTS '${tableName}';`, (err, result) => {
+					if(err){
+						console.error('SQLite Drop Table Error:',err);
+						resolve(false)
+						return false;
+					}
+
+					resolve(true);
+				});
+			} catch(e){
+				resolve(false)
+			}
+		});
+	}
+
+	/*
+
 	Truncate Table
 	@tableName String
 	
