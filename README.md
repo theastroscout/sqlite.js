@@ -5,7 +5,7 @@ Async libs for handling sqlite
 
 ## Installation
 ```
-npm install @surfy/SQLite
+npm install @surfy/sqlite
 ```
 
 ## Usage
@@ -17,7 +17,6 @@ import SQLite from "@surfy/sqlite";
 
 const sql = new SQLite('PATH TO DB FILE');
 ```
-<br/>
 <br/>
 
 ## Methods
