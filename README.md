@@ -1,5 +1,5 @@
 # SQLite
-Async libs for handling sqlite
+Asynchronous Library for sqlite3
 
 <br/>
 
