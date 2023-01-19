@@ -47,6 +47,7 @@ class SQLite {
 				this.obj.get(query, (err, result) => {
 					if(err){
 						console.error('SQLite Get Error:',err);
+						console.error('Query:', query);
 						resolve(false)
 						return false;
 					}
@@ -70,7 +71,9 @@ class SQLite {
 			try {
 				this.obj.get(query, (err, result) => {
 					if(err){
-						console.error('SQLite All Error:',err);
+						console.error('SQLite All Error:', err);
+						console.error('Query:', query);
+
 						resolve(false)
 						return false;
 					}
@@ -94,7 +97,8 @@ class SQLite {
 			try {
 				this.obj.run(query, (err, result) => {
 					if(err){
-						console.error('SQLite Run Error:',err);
+						console.error('SQLite Run Error:', err);
+						console.error('Query:', query);
 						resolve(false)
 						return false;
 					}
@@ -118,7 +122,7 @@ class SQLite {
 			try {
 				this.obj.run(`DROP TABLE IF EXISTS '${tableName}';`, (err, result) => {
 					if(err){
-						console.error('SQLite Drop Table Error:',err);
+						console.error(`SQLite Drop '${tableName}' Table Error:`,err);
 						resolve(false)
 						return false;
 					}
@@ -144,12 +148,12 @@ class SQLite {
 			try {
 				this.obj.run(`Delete from '${tableName}';`, (err, result) => {
 					if(err){
-						console.log('SQLite Truncate Error', err);
+						console.log(`SQLite Truncate '${tableName}' Table Error`, err);
 						resolve(false);
 					} else {
 						this.obj.run(`DELETE FROM SQLITE_SEQUENCE WHERE name='${tableName}';`, (err, result) => {
 							resolve(true);
-						})
+						});
 						
 					}
 				});
