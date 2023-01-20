@@ -93,6 +93,10 @@ let rows = [
 		data: {
 			extraOption: 'Test Data 2'
 		}
+	},
+	{
+		name: 'Test name 3',
+		data: [1, 2, 3]
 	}
 ];
 
