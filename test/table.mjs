@@ -58,6 +58,7 @@ let tableTest = async sql => {
 	Update
 
 	*/
+
 	console.log('\n>>> Checking Update...\n');
 	let resultID1 = await test_table.find({id: 1});
 	console.log('Row #1:', resultID1);
@@ -71,9 +72,18 @@ let tableTest = async sql => {
 	Find nothing
 
 	*/
+
 	console.log('\n>>> Search Nothing...\n');
 	let nothing = await test_table.find({id: 12838732});
 	console.log('Nothing is: ',nothing);
+
+	/*
+
+	Find one
+
+	*/
+	let one = await test_table.findOne({data: 'Some Data'});
+	console.log('\n\nFind one: ', one, '\n\n');
 	
 
 	console.log('\n\n### End Table Test ###\n');
