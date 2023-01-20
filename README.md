@@ -25,8 +25,38 @@ const sql = new SQLite('PATH TO DB FILE');
 ### Run
 ```js
 
-await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);");
-await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record');");
+await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, data TEXT);");
+await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Data content');");
+
+````
+<br/>
+
+### Table
+Return Table Class for query processing
+
+```js
+
+let table = await sql.table('test_table');
+
+````
+<br/>
+
+### Find
+Find in a table
+
+```js
+
+let match = {
+	id: 1
+};
+
+let options = {
+	fields: ['id', 'name'],
+	limit: 2
+};
+
+let result = table.find(match, options);
+console.log(result);
 
 ````
 <br/>
