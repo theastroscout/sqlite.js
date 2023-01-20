@@ -77,7 +77,8 @@ let row = {
 	}
 };
 
-await table.insert(row);
+let oneID = await table.insert(row);
+// oneID - Array [(int) Inserted_ID]
 
 // Multiple values
 let rows = [
@@ -95,7 +96,8 @@ let rows = [
 	}
 ];
 
-await table.insert(rows);
+let IDs = await table.insert(rows);
+// IDs - Array [(int) Inserted_ID, (int) Inserted_ID, ...]
 
 ````
 <br/>
