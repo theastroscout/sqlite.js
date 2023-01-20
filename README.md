@@ -29,7 +29,7 @@ await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUT
 await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Data content');");
 
 ````
-<br/>
+
 
 ### .table(table_name)
 Return Table Class for query processing
@@ -39,7 +39,7 @@ Return Table Class for query processing
 let table = await sql.table('test_table');
 
 ````
-<br/>
+
 
 ### .find(match, options)
 Find in a table
@@ -60,7 +60,7 @@ let options = {
 let result = table.find(match, options);
 
 ````
-<br/>
+
 
 ### .insert(values)
 Insert data into table
@@ -83,6 +83,10 @@ let oneID = await table.insert(row);
 // Multiple values
 let rows = [
 	{
+		name: 'Time Data',
+		data: 'CURRENT_TIME'
+	},
+	{
 		name: 'Test name 1',
 		data: {
 			extraOption: 'Test Data 1'
@@ -100,7 +104,7 @@ let IDs = await table.insert(rows);
 // IDs - Array [(int) Inserted_ID, (int) Inserted_ID, ...]
 
 ````
-<br/>
+
 
 ### .each(query, options, callback)
 Run the SQL query with parameters and calls the callback once for each row
@@ -125,7 +129,7 @@ table.each(match, options, (err, row) => {
 
 
 ```
-<br/>
+
 
 ### .get(query)
 Return rows or false if error occured
@@ -136,7 +140,7 @@ let rows = await sql.get("SELECT * FROM test_table WHERE id=1");
 console.log(rows);
 
 ````
-<br/>
+
 
 ### .all(query)
 Return rows or false if error occured
@@ -147,7 +151,7 @@ let rows = await sql.all("SELECT * FROM test_table");
 console.log(rows);
 
 ````
-<br/>
+
 
 ### .truncate(table_name)
 Truncate table and reset Auto Increment
@@ -157,7 +161,7 @@ Truncate table and reset Auto Increment
 await sql.truncate("test_table");
 
 ````
-<br/>
+
 
 ### .remove(DB_name)
 Remove loaded DB file.
@@ -174,7 +178,7 @@ let result = await sql.removeDB();
 */
 
 ````
-<br/>
+
 
 ### .getSQLite3()
 Return original SQLite3 object
