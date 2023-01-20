@@ -113,6 +113,12 @@ class Table {
 		return await this.db.all(query);
 	}
 
+	/*
+
+	Insert
+
+	*/
+
 	insert(rows){
 		return new Promise(resolve => {
 			if(!Array.isArray(rows)){
@@ -144,11 +150,13 @@ class Table {
 			
 			const stmt = this.db.prepare(prepareQuery);
 			let completed = 0;
+			let ids = [];
 			for(let row of values){
 				stmt.run(...row, (err, result) => {
 					completed++;
+					ids.push(stmt.lastID);
 					if(completed === rows.length){
-						resolve(true);
+						resolve(ids);
 					}
 				});
 			}
@@ -156,6 +164,12 @@ class Table {
 			
 		});
 	}
+
+	/*
+
+	Each
+
+	*/
 
 	each(match, options, callback){
 		let fields = '*';

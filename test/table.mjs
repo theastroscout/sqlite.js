@@ -16,13 +16,15 @@ let tableTest = async sql => {
 	let count = await test_table.count();
 	console.log('Table\'s Documents Count is ', count);
 
-	await test_table.insert({data: 'Some Data', extra: 'Extra Data 2'});
-	await test_table.insert([
+	let ids = await test_table.insert({data: 'Some Data', extra: 'Extra Data 2'});
+	console.log('Inserted IDs: ', ids)
+	ids = await test_table.insert([
 		{data: 'Some Data', extra: 'Some Extra Data 3'},
 		{data: 'Some Data', extra: 'Some Extra Data 4'},
 		{data: 'Some Data', extra: 'Some Extra Data 5'},
 		{data: 'Some Data', extra: 'Some Extra Data 6'}
 	]);
+	console.log('Inserted IDs: ', ids)
 
 	// Count
 	count = await test_table.count();
