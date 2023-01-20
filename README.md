@@ -52,11 +52,47 @@ let match = {
 
 let options = {
 	fields: ['id', 'name'],
-	limit: 2
+	limit: 2,
+	skip: 3
 };
 
 let result = table.find(match, options);
-console.log(result);
+
+````
+<br/>
+
+### Insert
+Insert data into table
+
+```js
+
+// Single value
+let row = {
+	name: 'Test name',
+	data: {
+		extraOption: 'Test Data'
+	}
+};
+
+await table.insert(row);
+
+// Multiple values
+let rows = [
+	{
+		name: 'Test name 1',
+		data: {
+			extraOption: 'Test Data 1'
+		}
+	},
+	{
+		name: 'Test name 2',
+		data: {
+			extraOption: 'Test Data 2'
+		}
+	}
+];
+
+await table.insert(rows);
 
 ````
 <br/>
