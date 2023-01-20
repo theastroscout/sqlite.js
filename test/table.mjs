@@ -25,6 +25,9 @@ let tableTest = async sql => {
 	let r = await test_table.find({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 10});
 	console.log('Find Result: ', r)
 
+	let r2 = await test_table.find({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 2, skip: 3});
+	console.log('Find Result Limit 2, Skipped 3: ', r2)
+
 	console.log('\n\n### End Table Test ###\n');
 
 	return [true, 'Table Test successfully'];

@@ -89,7 +89,10 @@ class Table {
 
 		if(options){
 			
-			if(options.limit){
+			if(options.skip){
+				let limit = options.limit || -1;
+				query.push(`LIMIT ${limit} OFFSET ${options.skip}`);
+			} else if(options.limit){
 				query.push(`LIMIT ${options.limit}`);
 			}
 
