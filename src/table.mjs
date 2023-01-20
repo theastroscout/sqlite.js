@@ -103,7 +103,6 @@ class Table {
 
 		query.unshift(`SELECT ${fields} FROM \`${this.name}\``);
 		query = query.join(' ');
-		console.log('Find Query: ', query)
 
 		/*
 
@@ -156,6 +155,58 @@ class Table {
 			stmt.finalize();
 			
 		});
+	}
+
+	each(match, options, callback){
+		let fields = '*';
+		let query = [];
+
+		/*
+
+		Create Where
+
+		*/
+
+
+		if(match && Object.keys(match).length){
+			let where = [];
+			for(let field in match){
+				let value = match[field];
+				if(typeof value === 'object'){
+					value = `'${JSON.stringify(value)}'`;
+				} else if(typeof value === 'string'){
+					value = `'${value}'`;
+				}
+				where.push(`\`${field}\`=${value}`);
+			}
+			query.push(`WHERE ${where.join(' AND ')}`);
+		}
+
+		/*
+
+		Create Options
+
+		*/
+
+		if(options){
+			
+			if(options.skip){
+				let limit = options.limit || -1;
+				query.push(`LIMIT ${limit} OFFSET ${options.skip}`);
+			} else if(options.limit){
+				query.push(`LIMIT ${options.limit}`);
+			}
+
+			if(options.fields && options.fields.length){
+				fields = `\`${options.fields.join('`,`')}\``;
+			}
+		}
+
+		query.unshift(`SELECT ${fields} FROM \`${this.name}\``);
+		query = query.join(' ');
+		
+
+		this.db.each(query, callback);
 	}
 };
 

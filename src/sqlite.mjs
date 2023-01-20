@@ -198,6 +198,16 @@ class SQLite {
 
 	/*
 
+	Each
+
+	*/
+
+	each(query, callback){
+		this.db.each(query, callback);
+	}
+
+	/*
+
 	Error Message
 
 	*/

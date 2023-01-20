@@ -3,7 +3,7 @@ import tableTest from './table.mjs';
 
 const sql = new SQLite('test/test');
 
-let go = ['createTable', 'insert', 'table', 'get', 'all',  'drop', 'remove'];
+let go = ['createTable', 'insert', 'table', 'get', 'all', 'drop', 'remove'];
 
 /*
 
@@ -34,7 +34,7 @@ let tests = {
 	*/
 
 	insert: async () => {
-		let result = await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data', 'EXTRA DATA');");
+		let result = await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data', 'EXTRA DATA 1');");
 		if(!result){
 			return [false, 'Insert failed'];
 		}
@@ -89,7 +89,7 @@ let tests = {
 
 		*/
 
-		await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data', 'Extra Data');");
+		await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data', 'Extra Data 1');");
 		result = await sql.get("SELECT * FROM test_table WHERE data='Some Data';");
 		if(result.id !== 1){
 			return [false, 'Truncate table failed while checking'];
