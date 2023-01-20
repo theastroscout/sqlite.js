@@ -102,7 +102,26 @@ let IDs = await table.insert(rows);
 ````
 
 
-### .each(query, options, callback)
+### .update(match, update)
+
+```js
+
+let match = {
+	id: 1
+};
+
+let update = {
+	data: 'Updated Data',
+	extra: new Date()
+};
+
+await test_table.update(match, update);
+
+
+```
+
+
+### .each(match, options, callback)
 Run the SQL query with parameters and calls the callback once for each row
 
 ```js
