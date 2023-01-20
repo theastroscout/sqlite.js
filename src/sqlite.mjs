@@ -22,7 +22,6 @@ class SQLite {
 	constructor(path){
 		this.path = path;
 		this.db = new sqlite3.Database(this.path);
-		// this.cursorObj = this.obj.cursor();
 	}
 
 	/*
@@ -69,7 +68,7 @@ class SQLite {
 	all(query){
 		return new Promise(resolve => {
 			try {
-				this.db.get(query, (err, result) => {
+				this.db.all(query, (err, result) => {
 					if(err){
 						this.error(['SQLite All Error', err, 'Query: ' + query]);
 
@@ -100,7 +99,6 @@ class SQLite {
 						resolve(false)
 						return false;
 					}
-
 					resolve(true);
 				});
 			} catch(e){
@@ -186,6 +184,16 @@ class SQLite {
 
 	table(tableName){
 		return new Table(this, tableName);
+	}
+
+	/*
+
+	Prepare
+
+	*/
+
+	prepare(query){
+		return this.db.prepare(query);
 	}
 
 	/*

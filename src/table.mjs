@@ -30,6 +30,7 @@ class Table {
 	*/
 
 	async find(match, options){
+
 		console.log('Find params:\n\tMatch: ',match, '\n\tOptions: ', options);
 
 		let fields = '*';
@@ -83,11 +84,48 @@ class Table {
 
 		*/
 
-		return await this.db.get(query);
+		return await this.db.all(query);
 	}
 
-	insert(options){
-		// this.lastID
+	insert(rows){
+		return new Promise(resolve => {
+			if(!Array.isArray(rows)){
+				rows = [rows];
+			}
+
+			let fields = [];
+			let fieldsQ = [];
+			for(let row of rows){
+				for(let field in row){
+					if(!fields.includes(field)){
+						fields.push(field);
+						fieldsQ.push('?');
+					}
+				}
+			}
+
+			let values = [];
+			for(let row of rows){
+				let rowData = [];
+				for(let field of fields){
+					rowData.push(row[field] || 'NULL');
+				}
+				values.push(rowData);
+			}
+
+			fields = `${fields.join(',')}`;
+			let prepareQuery = `INSERT INTO \`${this.name}\` (${fields}) VALUES(${fieldsQ.join(',')})`;
+			
+			const stmt = this.db.prepare(prepareQuery);
+			
+			
+			for(let row of values){
+				console.log('Insert Row', row)
+				stmt.run(...row);
+			}
+			stmt.finalize();
+			resolve(true);
+		});
 	}
 };
 
