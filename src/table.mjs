@@ -140,15 +140,18 @@ class Table {
 			for(let row of rows){
 				let rowData = [];
 				for(let field of fields){
+					/*
 					let v = row[field] || 'NULL';
 					if(v === 'CURRENT_TIME'){
 						v = `DATE(${(new Date()).toJSON()})`;
 					} else if(v instanceof Date){
 						v = `DATE(${(new Date(v)).toJSON()})`;
 					}
-					rowData.push(v);
+					*/
+					// let v = this.db.parse(row[field], 'values');
+					rowData.push(row[field]);
 				}
-				values.push(rowData);
+				values.push(this.db.parse(rowData));
 			}
 
 			fields = `${fields.join(',')}`;
@@ -158,6 +161,7 @@ class Table {
 			let completed = 0;
 			let ids = [];
 			for(let row of values){
+				console.log('Insert Row', row)
 				stmt.run(...row, (err, result) => {
 					completed++;
 					ids.push(stmt.lastID);

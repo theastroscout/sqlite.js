@@ -22,7 +22,9 @@ let tableTest = async sql => {
 		{data: 'Some Data', extra: 'Some Extra Data 3'},
 		{data: 'Some Data', extra: 'Some Extra Data 4'},
 		{data: 'Some Data', extra: 'Some Extra Data 5'},
-		{data: 'Some Data', extra: 'Some Extra Data 6'}
+		{data: 'Some Data', extra: 'Some Extra Data 6'},
+		{data: 'Some Data', extra: [1,2,3,4,5]},
+		{data: 'Some Data', extra: {var1: true}}
 	]);
 	console.log('Inserted IDs: ', ids)
 

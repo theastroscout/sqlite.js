@@ -235,24 +235,14 @@ class SQLite {
 
 	*/
 
-	parse(fields, type='values'){
+	parse(fields, type='array'){
 		
 		let list = [];
 
-		for(let field in fields){
-			let v = fields[field];
+		let escaped = type !== 'array';
 
-			if(!v){
-				v = 'NULL';
-			} else if(typeof v === 'string'){
-				v = `'${v}'`;
-			} else if(v === 'CURRENT_TIME'){
-				v = `'DATE(${(new Date()).toJSON()})'`;
-			} else if(v instanceof Date){
-				v = `'DATE(${(new Date(v)).toJSON()})'`;
-			} if(typeof v === 'object'){
-				v = `'${JSON.stringify(v)}'`;
-			}
+		for(let field in fields){
+			let v = this.parseValue(fields[field], escaped);			
 
 			if(type === 'set'){
 				list.push(`\`${field}\`=${v}`);
@@ -262,9 +252,13 @@ class SQLite {
 				} else {
 					list.push(`\`${field}\`=${v}`);
 				}
-			} else if(type === 'values'){
+			} else {
 				list.push(v);
 			}
+		}
+
+		if(type === 'array'){
+			return list;
 		}
 
 		if(type === 'where'){
@@ -274,6 +268,25 @@ class SQLite {
 		// Values and Set
 		return list.join(',');
 		
+	}
+
+	parseValue(v, escaped=true){
+		if(!v){
+			v = 'NULL';
+		} else if(typeof v === 'string'){
+			v = escaped ? `'${v}'` : v;
+		} else if(v === 'CURRENT_TIME'){
+			v = `DATE(${(new Date()).toJSON()})`;
+			v = escaped ? `'${v}'` : v;
+		} else if(v instanceof Date){
+			v = `DATE(${(new Date(v)).toJSON()})`;
+			v = escaped ? `'${v}'` : v;
+		} if(typeof v === 'object'){
+			v = `${JSON.stringify(v)}`;
+			v = escaped ? `'${v}'` : v;
+		}
+
+		return v;
 	}
 
 	/*
@@ -301,6 +314,12 @@ class SQLite {
 		for(let field in row){
 			if(/^DATE\((.+)\)$/.test(row[field])){
 				row[field] = new Date(row[field].replace(/^DATE\((.+)\)$/, '$1'));
+			} else if(/^(\[|\{)/.test(row[field])){
+				try {
+					row[field] = JSON.parse(row[field]);
+				} catch(e){
+
+				}
 			}
 		}
 		return row;
