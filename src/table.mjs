@@ -155,7 +155,7 @@ class Table {
 			}
 
 			fields = `${fields.join(',')}`;
-			let prepareQuery = `INSERT INTO \`${this.name}\` (${fields}) VALUES(${fieldsQ.join(',')})`;
+			let prepareQuery = `INSERT OR IGNORE INTO \`${this.name}\` (${fields}) VALUES(${fieldsQ.join(',')})`;
 			
 			const stmt = this.db.prepare(prepareQuery);
 			let completed = 0;
