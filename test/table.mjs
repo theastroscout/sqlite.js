@@ -11,13 +11,18 @@ let tableTest = async sql => {
 	console.log('Table Object: ',test_table);
 
 	console.log('Insert Data...');
+	let count = await test_table.count();
+	console.log('Table\'s Documents Count is ', count);
 	await test_table.insert({data: 'Some Data', extra: 'Extra Data 1'});
 	await test_table.insert([
 		{data: 'Some Data', extra: 'Some Extra Data 2'},
 		{data: 'Some Data', extra: 'Some Extra Data 3'},
-		{data: 'Some Data', extra: 'Some Extra Data 4'}
+		{data: 'Some Data', extra: 'Some Extra Data 4'},
+		{data: 'Some Data', extra: 'Some Extra Data 5'},
 	]);
-	let r = await test_table.find({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 7});
+	count = await test_table.count();
+	console.log('Table\'s Documents Count is ', count);
+	let r = await test_table.find({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 10});
 	console.log('Find Result: ', r)
 
 	console.log('\n\n### End Table Test ###\n');

@@ -19,6 +19,33 @@ class Table {
 
 	/*
 
+	Count
+
+	*/
+
+	async count(match){
+		let query = [];
+		if(match && Object.keys(match).length){
+			let where = [];
+			for(let field in match){
+				let value = match[field];
+				if(typeof value === 'object'){
+					value = `'${JSON.stringify(value)}'`;
+				} else if(typeof value === 'string'){
+					value = `'${value}'`;
+				}
+				where.push(`\`${field}\`=${value}`);
+			}
+			query.push(`WHERE ${where.join(' AND ')}`);
+		}
+
+		query.unshift(`SELECT count(1) as count FROM \`${this.name}\``);
+		let result = await this.db.get(query.join(' '));
+		return result.count;
+	}
+
+	/*
+
 	Find
 
 	@match Object, AND condition
@@ -117,14 +144,17 @@ class Table {
 			let prepareQuery = `INSERT INTO \`${this.name}\` (${fields}) VALUES(${fieldsQ.join(',')})`;
 			
 			const stmt = this.db.prepare(prepareQuery);
-			
-			
+			let completed = 0;
 			for(let row of values){
-				console.log('Insert Row', row)
-				stmt.run(...row);
+				stmt.run(...row, (err, result) => {
+					completed++;
+					if(completed === rows.length){
+						resolve(true);
+					}
+				});
 			}
 			stmt.finalize();
-			resolve(true);
+			
 		});
 	}
 };
