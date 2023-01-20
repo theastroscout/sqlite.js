@@ -143,6 +143,8 @@ class Table {
 					let v = row[field] || 'NULL';
 					if(v === 'CURRENT_TIME'){
 						v = `DATE(${(new Date()).toJSON()})`;
+					} else if(v instanceof Date){
+						v = `DATE(${(new Date(v)).toJSON()})`;
 					}
 					rowData.push(v);
 				}

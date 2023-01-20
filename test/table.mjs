@@ -26,7 +26,15 @@ let tableTest = async sql => {
 	]);
 	console.log('Inserted IDs: ', ids)
 
-	ids = await test_table.insert({data: 'Some Data', extra: 'CURRENT_TIME'});
+	/*
+
+	Check Date
+
+	*/
+	ids = await test_table.insert([
+		{data: 'Some Data', extra: 'CURRENT_TIME'},
+		{data: 'Some Data', extra: new Date()}
+	]);
 	console.log('Date Time ID', ids);
 
 	// Count
