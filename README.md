@@ -83,10 +83,6 @@ let oneID = await table.insert(row);
 // Multiple values
 let rows = [
 	{
-		name: 'Time Data',
-		data: 'CURRENT_TIME'
-	},
-	{
 		name: 'Test name 1',
 		data: {
 			extraOption: 'Test Data 1'
@@ -130,6 +126,23 @@ table.each(match, options, (err, row) => {
 
 ```
 
+## Date
+
+```js
+await sql.run("CREATE TABLE IF NOT EXISTS time_table (id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT);");
+let time_table = await sql.table('time_table');
+let insertedIDs = await time_table.insert([
+	{ time: 'CURRENT_TIME' },
+	{ time: new Date() }
+]);
+
+let rows = await time_table.find();
+console.log(rows);
+
+```
+
+## Global method
+<br/>
 
 ### .get(query)
 Return rows or false if error occured
