@@ -26,19 +26,23 @@ let tableTest = async sql => {
 	]);
 	console.log('Inserted IDs: ', ids)
 
+	ids = await test_table.insert({data: 'Some Data', extra: 'CURRENT_TIME'});
+	console.log('Date Time ID', ids);
+
 	// Count
 	count = await test_table.count();
 	console.log('Table\'s Documents Count is ', count);
 
 	let r = await test_table.find({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 10});
 	console.log('Find Result: ', r)
-
+	
 	let r2 = await test_table.find({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 2, skip: 3});
 	console.log('Find Result Limit 2, Skipped 3: ', r2)
 
 	test_table.each({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 10}, (err, row) => {
 		console.log('Each > Row:', row)
 	});
+	
 
 	console.log('\n\n### End Table Test ###\n');
 

@@ -50,6 +50,8 @@ class SQLite {
 						resolve(false)
 						return false;
 					}
+
+					result = this.parse(result);
 					resolve(result);
 				});
 			} catch(e){
@@ -75,6 +77,8 @@ class SQLite {
 						resolve(false)
 						return false;
 					}
+
+					result = this.parse(result);
 					resolve(result);
 				});
 			} catch(e){
@@ -203,7 +207,9 @@ class SQLite {
 	*/
 
 	each(query, callback){
-		this.db.each(query, callback);
+		this.db.each(query, (err, row) => {
+			callback(err, this.parse(row));
+		});
 	}
 
 	/*
@@ -217,6 +223,36 @@ class SQLite {
 			msg = msg.join('\n');
 		}
 		console.error(`\nERROR: ${msg}\n`);
+	}
+
+	/*
+
+	Parse Special
+
+	*/
+
+	parse(result){
+		if(!result){
+			return result;
+		}
+		if(!Array.isArray(result)){
+			return this.extract(result);
+		}
+		
+		for(let i=0,l=result.length;i<l;i++){
+			result[i] = this.extract(result[i]);
+		}
+
+		return result;
+	}
+
+	extract(row){
+		for(let field in row){
+			if(/^DATE\((.+)\)$/.test(row[field])){
+				row[field] = new Date(row[field].replace(/^DATE\((.+)\)$/, '$1'));
+			}
+		}
+		return row;
 	}
 };
 

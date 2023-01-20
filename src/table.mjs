@@ -140,7 +140,11 @@ class Table {
 			for(let row of rows){
 				let rowData = [];
 				for(let field of fields){
-					rowData.push(row[field] || 'NULL');
+					let v = row[field] || 'NULL';
+					if(v === 'CURRENT_TIME'){
+						v = `DATE(${(new Date()).toJSON()})`;
+					}
+					rowData.push(v);
 				}
 				values.push(rowData);
 			}
