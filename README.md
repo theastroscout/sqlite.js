@@ -22,7 +22,7 @@ const sql = new SQLite('PATH TO DB FILE');
 ## Methods
 <br/>
 
-### Run
+### .run(query)
 ```js
 
 await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, data TEXT);");
@@ -31,7 +31,7 @@ await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Dat
 ````
 <br/>
 
-### Table
+### .table(table_name)
 Return Table Class for query processing
 
 ```js
@@ -41,7 +41,7 @@ let table = await sql.table('test_table');
 ````
 <br/>
 
-### Find
+### .find(match, options)
 Find in a table
 
 ```js
@@ -62,7 +62,7 @@ let result = table.find(match, options);
 ````
 <br/>
 
-### Insert
+### .insert(values)
 Insert data into table
 
 ```js
@@ -100,7 +100,7 @@ await table.insert(rows);
 ````
 <br/>
 
-### SQLite.each(), Table.each()
+### .each(query, options, callback)
 Run the SQL query with parameters and calls the callback once for each row
 
 ```js
@@ -125,7 +125,7 @@ table.each(match, options, (err, row) => {
 ```
 <br/>
 
-### Get
+### .get(query)
 Return rows or false if error occured
 
 ```js
@@ -136,7 +136,7 @@ console.log(rows);
 ````
 <br/>
 
-### All
+### .all(query)
 Return rows or false if error occured
 
 ```js
@@ -147,7 +147,7 @@ console.log(rows);
 ````
 <br/>
 
-### Truncate table
+### .truncate(table_name)
 Truncate table and reset Auto Increment
 
 ```js
@@ -157,7 +157,7 @@ await sql.truncate("test_table");
 ````
 <br/>
 
-### Remove DB file
+### .remove(DB_name)
 Remove loaded DB file.
 
 ```js
@@ -174,7 +174,7 @@ let result = await sql.removeDB();
 ````
 <br/>
 
-### Get SQLite3
+### .getSQLite3()
 Return original SQLite3 object
 
 ```js
