@@ -224,12 +224,72 @@ class Table {
 			let completed = 0;
 			let ids = [];
 			for(let row of values){
-				console.log('Insert Row', row)
 				stmt.run(...row, (err, result) => {
 					completed++;
 					ids.push(stmt.lastID);
 					if(completed === rows.length){
 						resolve(ids);
+					}
+				});
+			}
+			stmt.finalize();
+			
+		});
+	}
+
+	/*
+
+	Insert One
+
+	*/
+
+	insertOne(rows){
+		return new Promise(resolve => {
+			if(!Array.isArray(rows)){
+				rows = [rows];
+			}
+
+			let fields = [];
+			let fieldsQ = [];
+			for(let row of rows){
+				for(let field in row){
+					if(!fields.includes(field)){
+						fields.push(field);
+						fieldsQ.push('?');
+					}
+				}
+			}
+
+			let values = [];
+			for(let row of rows){
+				let rowData = [];
+				for(let field of fields){
+					/*
+					let v = row[field] || 'NULL';
+					if(v === 'CURRENT_TIME'){
+						v = `DATE(${(new Date()).toJSON()})`;
+					} else if(v instanceof Date){
+						v = `DATE(${(new Date(v)).toJSON()})`;
+					}
+					*/
+					// let v = this.db.parse(row[field], 'values');
+					rowData.push(row[field]);
+				}
+				values.push(this.db.parse(rowData));
+			}
+
+			fields = `${fields.join(',')}`;
+			let prepareQuery = `INSERT OR IGNORE INTO \`${this.name}\` (${fields}) VALUES(${fieldsQ.join(',')})`;
+			
+			const stmt = this.db.prepare(prepareQuery);
+			let completed = 0;
+			let ids = [];
+			for(let row of values){
+				stmt.run(...row, (err, result) => {
+					completed++;
+					ids.push(stmt.lastID);
+					if(completed === rows.length){
+						resolve(ids[0]);
 					}
 				});
 			}

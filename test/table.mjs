@@ -30,9 +30,19 @@ let tableTest = async sql => {
 
 	/*
 
+	Insert One
+
+	*/
+	let insertOneData = {data: 'Some Data', extra: [54,42]};
+	let insertOneID = await test_table.insertOne(insertOneData);
+	console.log('Insert One', insertOneData, insertOneID);
+
+	/*
+
 	Check Date
 
 	*/
+
 	ids = await test_table.insert([
 		{data: 'Some Data', extra: 'CURRENT_TIME'},
 		{data: 'Some Data', extra: new Date()}
