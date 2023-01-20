@@ -51,7 +51,7 @@ class SQLite {
 						return false;
 					}
 
-					result = this.parse(result);
+					result = this.extract(result);
 					resolve(result);
 				});
 			} catch(e){
@@ -78,7 +78,7 @@ class SQLite {
 						return false;
 					}
 
-					result = this.parse(result);
+					result = this.extract(result);
 					resolve(result);
 				});
 			} catch(e){
@@ -208,7 +208,7 @@ class SQLite {
 
 	each(query, callback){
 		this.db.each(query, (err, row) => {
-			callback(err, this.parse(row));
+			callback(err, this.extract(row));
 		});
 	}
 
@@ -227,26 +227,91 @@ class SQLite {
 
 	/*
 
+	Prepare Field
+
+	*/
+
+	parse(fields, type='values'){
+		
+		let list = [];
+
+		for(let field in fields){
+			let v = fields[field];
+
+			console.log('VALUE:', typeof v, v)
+
+			if(!v){
+				v = 'NULL';
+			} else if(typeof v === 'string'){
+				v = `'${v}'`;
+			} else if(v === 'CURRENT_TIME'){
+				v = `'DATE(${(new Date()).toJSON()})'`;
+			} else if(v instanceof Date){
+				v = `'DATE(${(new Date(v)).toJSON()})'`;
+			} if(typeof v === 'object'){
+				v = `'${JSON.stringify(v)}'`;
+			}
+
+			if(type === 'set'){
+				list.push(`\`${field}\`=${v}`);
+			} else if(type === 'where'){
+				if(v === 'NULL'){
+					list.push(`\`${field}\` IS NULL`);
+				} else {
+					list.push(`\`${field}\`=${v}`);
+				}
+			} else if(type === 'values'){
+				list.push(v);
+			}
+		}
+
+		if(type === 'where'){
+			return list.join(' AND ');
+		}
+
+		// Values and Set
+		return list.join(',');
+		
+	}
+
+	_parse(fields, type='values'){
+		if(!v){
+			v = 'NULL';
+		} else if(typeof v === 'object'){
+			v = `'${JSON.stringify(v)}'`;
+		} else if(typeof v === 'string'){
+			v = `'${v}'`;
+		} else if(v === 'CURRENT_TIME'){
+			v = `'DATE(${(new Date()).toJSON()})'`;
+		} else if(v instanceof Date){
+			v = `'DATE(${(new Date(v)).toJSON()})'`;
+		}
+
+		return v;
+	}
+
+	/*
+
 	Parse Special
 
 	*/
 
-	parse(result){
+	extract(result){
 		if(!result){
 			return result;
 		}
 		if(!Array.isArray(result)){
-			return this.extract(result);
+			return this.extractField(result);
 		}
 		
 		for(let i=0,l=result.length;i<l;i++){
-			result[i] = this.extract(result[i]);
+			result[i] = this.extractField(result[i]);
 		}
 
 		return result;
 	}
 
-	extract(row){
+	extractField(row){
 		for(let field in row){
 			if(/^DATE\((.+)\)$/.test(row[field])){
 				row[field] = new Date(row[field].replace(/^DATE\((.+)\)$/, '$1'));

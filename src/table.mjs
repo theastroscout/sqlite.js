@@ -228,6 +228,30 @@ class Table {
 
 		this.db.each(query, callback);
 	}
+
+	/*
+
+	Update
+
+	*/
+
+	async update(match, update){
+		let query = [`UPDATE \`${this.name}\``];
+
+		if(update && Object.keys(update).length){
+			let set = this.db.parse(update, 'set');
+			query.push(`SET ${set}`);
+		}
+
+		if(match && Object.keys(match).length){
+			let where = this.db.parse(match, 'where');
+			query.push(`WHERE ${where}`);
+		}
+
+		query = query.join(' ');
+		console.log('Update Query',query)
+		return await this.db.run(query);
+	}
 };
 
 export default Table;

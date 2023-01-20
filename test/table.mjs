@@ -35,7 +35,7 @@ let tableTest = async sql => {
 		{data: 'Some Data', extra: 'CURRENT_TIME'},
 		{data: 'Some Data', extra: new Date()}
 	]);
-	console.log('Date Time ID', ids);
+	console.log('Date Time IDs', ids);
 
 	// Count
 	count = await test_table.count();
@@ -47,9 +47,21 @@ let tableTest = async sql => {
 	let r2 = await test_table.find({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 2, skip: 3});
 	console.log('Find Result Limit 2, Skipped 3: ', r2)
 
-	test_table.each({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 10}, (err, row) => {
+	await test_table.each({data: 'Some Data'}, {fields: ['id', 'data', 'extra'], limit: 10}, (err, row) => {
 		console.log('Each > Row:', row)
 	});
+
+	/*
+
+	Update
+
+	*/
+	console.log('\n>>> Checking Update...\n');
+	let resultID1 = await test_table.find({id: 1});
+	console.log('Row #1:', resultID1);
+	await test_table.update({id: 1}, {data: 'Updated New Data', extra: new Date()});
+	resultID1 = await test_table.find({id: 1});
+	console.log('Updated Row #1:', resultID1);
 	
 
 	console.log('\n\n### End Table Test ###\n');
