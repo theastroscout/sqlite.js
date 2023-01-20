@@ -62,6 +62,26 @@ let result = table.find(match, options);
 ````
 
 
+### .findOne(match, options)
+Find one row in a table
+
+```js
+
+let table = await sql.table('test_table');
+let match = {
+	id: 1
+};
+
+let options = {
+	fields: ['id', 'name'],
+	skip: 3
+};
+
+let result = table.findOne(match, options);
+
+````
+
+
 ### .insert(values)
 Insert data into table
 
