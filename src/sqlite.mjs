@@ -8,6 +8,7 @@ Inspired by https://www.npmjs.com/package/sqlite3
 
 import fs from 'node:fs';
 import sqlite3 from 'sqlite3';
+import Table from './table.mjs';
 
 class SQLite {
 
@@ -20,7 +21,7 @@ class SQLite {
 
 	constructor(path){
 		this.path = path;
-		this.obj = new sqlite3.Database(this.path);
+		this.db = new sqlite3.Database(this.path);
 		// this.cursorObj = this.obj.cursor();
 	}
 
@@ -31,7 +32,7 @@ class SQLite {
 	*/
 
 	getSQLite3(){
-		return this.obj;
+		return this.db;
 	}
 
 	/*
@@ -44,10 +45,9 @@ class SQLite {
 	get(query){
 		return new Promise(resolve => {
 			try {
-				this.obj.get(query, (err, result) => {
+				this.db.get(query, (err, result) => {
 					if(err){
-						console.error('SQLite Get Error:',err);
-						console.error('Query:', query);
+						this.error(['SQLite Get Error', err, 'Query: ' + query]);
 						resolve(false)
 						return false;
 					}
@@ -69,10 +69,9 @@ class SQLite {
 	all(query){
 		return new Promise(resolve => {
 			try {
-				this.obj.get(query, (err, result) => {
+				this.db.get(query, (err, result) => {
 					if(err){
-						console.error('SQLite All Error:', err);
-						console.error('Query:', query);
+						this.error(['SQLite All Error', err, 'Query: ' + query]);
 
 						resolve(false)
 						return false;
@@ -95,10 +94,9 @@ class SQLite {
 	run(query){
 		return new Promise(resolve => {
 			try {
-				this.obj.run(query, (err, result) => {
+				this.db.run(query, (err, result) => {
 					if(err){
-						console.error('SQLite Run Error:', err);
-						console.error('Query:', query);
+						this.error(['SQLite Run Error', err, 'Query: '+query]);
 						resolve(false)
 						return false;
 					}
@@ -120,9 +118,9 @@ class SQLite {
 
 		return new Promise(resolve => {
 			try {
-				this.obj.run(`DROP TABLE IF EXISTS '${tableName}';`, (err, result) => {
+				this.db.run(`DROP TABLE IF EXISTS '${tableName}';`, (err, result) => {
 					if(err){
-						console.error(`SQLite Drop '${tableName}' Table Error:`,err);
+						this.error([`SQLite Drop '${tableName}' Table Error`, err]);
 						resolve(false)
 						return false;
 					}
@@ -146,12 +144,12 @@ class SQLite {
 	truncate(tableName){
 		return new Promise(resolve => {
 			try {
-				this.obj.run(`Delete from '${tableName}';`, (err, result) => {
+				this.db.run(`Delete from '${tableName}';`, (err, result) => {
 					if(err){
-						console.log(`SQLite Truncate '${tableName}' Table Error`, err);
+						this.error([`SQLite Truncate '${tableName}' Table Error`, err]);
 						resolve(false);
 					} else {
-						this.obj.run(`DELETE FROM SQLITE_SEQUENCE WHERE name='${tableName}';`, (err, result) => {
+						this.db.run(`DELETE FROM SQLITE_SEQUENCE WHERE name='${tableName}';`, (err, result) => {
 							resolve(true);
 						});
 						
@@ -172,12 +170,35 @@ class SQLite {
 
 	removeDB(){
 		if(fs.existsSync(this.path)){
-			this.obj.close();
+			this.db.close();
 			fs.unlinkSync(this.path);
 			return true;
 		}
 
 		return false;
+	}
+
+	/*
+
+	Get Table Instance
+
+	*/
+
+	table(tableName){
+		return new Table(this, tableName);
+	}
+
+	/*
+
+	Error Message
+
+	*/
+
+	error(msg){
+		if(Array.isArray(msg)){
+			msg = msg.join('\n');
+		}
+		console.error(`\nERROR: ${msg}\n`);
 	}
 };
 

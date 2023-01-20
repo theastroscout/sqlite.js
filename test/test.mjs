@@ -1,6 +1,8 @@
 import SQLite from '../src/sqlite.mjs';
+import tableTest from './table.mjs';
 
 const sql = new SQLite('test/test');
+
 let result;
 
 /*
@@ -9,7 +11,7 @@ Create Table
 
 */
 
-result = await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT NOT NULL);");
+result = await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT NOT NULL, extra TEXT NOT NULL);");
 if(!result){
 	throw Error('Run, create table sucks');
 }
@@ -21,7 +23,7 @@ Insert Into table
 
 */
 
-result = await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data');");
+result = await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data', 'EXTRA DATA');");
 if(!result){
 	throw Error('Get method sucks');
 }
@@ -40,6 +42,14 @@ console.log('Get Result:', result);
 
 /*
 
+Table Test
+
+*/
+
+tableTest(sql);
+
+/*
+
 Truncate Table
 
 */
@@ -50,13 +60,14 @@ if(!result){
 }
 console.log('Truncate Result: ', result);
 
+
 /*
 
 Check truncated
 
 */
 
-await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data');");
+await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data', 'Extra Data');");
 result = await sql.get("SELECT * FROM test_table WHERE data='Some Data';");
 if(result.id !== 1){
 	throw Error('Truncate sucks');
