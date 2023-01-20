@@ -78,6 +78,10 @@ class SQLite {
 						return false;
 					}
 
+					if(!result.length){
+						resolve(false);
+						return false;
+					}
 					result = this.extract(result);
 					resolve(result);
 				});
@@ -238,8 +242,6 @@ class SQLite {
 		for(let field in fields){
 			let v = fields[field];
 
-			console.log('VALUE:', typeof v, v)
-
 			if(!v){
 				v = 'NULL';
 			} else if(typeof v === 'string'){
@@ -272,22 +274,6 @@ class SQLite {
 		// Values and Set
 		return list.join(',');
 		
-	}
-
-	_parse(fields, type='values'){
-		if(!v){
-			v = 'NULL';
-		} else if(typeof v === 'object'){
-			v = `'${JSON.stringify(v)}'`;
-		} else if(typeof v === 'string'){
-			v = `'${v}'`;
-		} else if(v === 'CURRENT_TIME'){
-			v = `'DATE(${(new Date()).toJSON()})'`;
-		} else if(v instanceof Date){
-			v = `'DATE(${(new Date(v)).toJSON()})'`;
-		}
-
-		return v;
 	}
 
 	/*

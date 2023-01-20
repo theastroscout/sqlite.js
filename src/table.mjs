@@ -249,7 +249,6 @@ class Table {
 		}
 
 		query = query.join(' ');
-		console.log('Update Query',query)
 		return await this.db.run(query);
 	}
 };
