@@ -18,7 +18,7 @@ let tableTest = async sql => {
 		{data: 'Some Data', extra: 'Some Extra Data 2'},
 		{data: 'Some Data', extra: 'Some Extra Data 3'},
 		{data: 'Some Data', extra: 'Some Extra Data 4'},
-		{data: 'Some Data', extra: 'Some Extra Data 5'},
+		{data: 'Some Data', extra: 'Some Extra Data 5'}
 	]);
 	count = await test_table.count();
 	console.log('Table\'s Documents Count is ', count);

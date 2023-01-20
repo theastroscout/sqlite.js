@@ -3,7 +3,7 @@ import tableTest from './table.mjs';
 
 const sql = new SQLite('test/test');
 
-let go = ['createTable', 'insert', 'insert', 'insert', 'get', 'all', 'table', 'drop', 'remove'];
+let go = ['createTable', 'insert', 'table', 'get', 'all',  'drop', 'remove'];
 
 /*
 

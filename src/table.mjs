@@ -57,9 +57,6 @@ class Table {
 	*/
 
 	async find(match, options){
-
-		console.log('Find params:\n\tMatch: ',match, '\n\tOptions: ', options);
-
 		let fields = '*';
 		let query = [];
 
