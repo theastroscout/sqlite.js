@@ -46,6 +46,7 @@ Find in a table
 
 ```js
 
+let table = await sql.table('test_table');
 let match = {
 	id: 1
 };
@@ -65,6 +66,8 @@ let result = table.find(match, options);
 Insert data into table
 
 ```js
+
+let table = await sql.table('test_table');
 
 // Single value
 let row = {
@@ -95,6 +98,31 @@ let rows = [
 await table.insert(rows);
 
 ````
+<br/>
+
+### SQLite.each(), Table.each()
+Run the SQL query with parameters and calls the callback once for each row
+
+```js
+
+let table = await sql.table('test_table');
+
+let match = {
+	name: 'Test name'
+};
+
+let options = {
+	fields: ['id', 'name'],
+	limit: 2,
+	skip: 3
+};
+
+table.each(match, options, (err, row) => {
+	console.log('Row', row);
+});
+
+
+```
 <br/>
 
 ### Get
