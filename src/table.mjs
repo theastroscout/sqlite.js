@@ -71,12 +71,16 @@ class Table {
 			let where = [];
 			for(let field in match){
 				let value = match[field];
-				if(typeof value === 'object'){
-					value = `'${JSON.stringify(value)}'`;
-				} else if(typeof value === 'string'){
-					value = `'${value}'`;
+				if(value['$in']){
+					where.push(`\`${field}\` IN ('${value['$in'].join('\',\'')}')`);
+				} else {
+					if(typeof value === 'object'){
+						value = `'${JSON.stringify(value)}'`;
+					} else if(typeof value === 'string'){
+						value = `'${value}'`;
+					}
+					where.push(`\`${field}\`=${value}`);
 				}
-				where.push(`\`${field}\`=${value}`);
 			}
 			query.push(`WHERE ${where.join(' AND ')}`);
 		}

@@ -26,16 +26,27 @@ let tableTest = async sql => {
 		{data: 'Some Data', extra: [1,2,3,4,5]},
 		{data: 'Some Data', extra: {var1: true}}
 	]);
-	console.log('Inserted IDs: ', ids)
+	console.log('Inserted IDs: ', ids);
 
 	/*
 
 	Insert One
 
 	*/
+
 	let insertOneData = {data: 'Some Data', extra: [54,42]};
 	let insertOneID = await test_table.insertOne(insertOneData);
 	console.log('Insert One', insertOneData, insertOneID);
+
+	/*
+
+	Check Find In
+
+	*/
+
+	let extraData = ['Some Extra Data 3', 'Some Extra Data 4'];
+	let inResult = await test_table.find({extra: {$in: extraData}});
+	console.log('\nResult $in operator:', inResult, '\n');
 
 	/*
 
