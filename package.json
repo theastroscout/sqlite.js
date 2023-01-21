@@ -1,6 +1,6 @@
 {
 	"name": "@surfy/sqlite",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"description": "Asynchronous Library for sqlite3",
 	"main": "src/sqlite.mjs",
 	"scripts": {
