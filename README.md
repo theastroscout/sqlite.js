@@ -32,7 +32,7 @@ await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Dat
 
 
 ### .table(table_name)
-Return Table Class for query processing
+Return Table instance for query processing
 
 ```js
 
