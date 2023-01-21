@@ -47,9 +47,14 @@ Find in a table
 ```js
 
 let table = await sql.table('test_table');
+
 let match = {
-	id: 1
+	id: 1,
+	name: {
+		$in: ['Test 1', 'Test 2']
+	}
 };
+// All matches for id=1 AND name IN ('Test 1', 'Test 2')
 
 let options = {
 	fields: ['id', 'name'],
