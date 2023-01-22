@@ -51,6 +51,9 @@ let table = await sql.table('test_table');
 let match = {
 	id: 1,
 	name: {
+		$like: 'Test'
+	},
+	data: {
 		$in: ['Test 1', 'Test 2']
 	}
 };
