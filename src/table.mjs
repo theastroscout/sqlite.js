@@ -76,7 +76,22 @@ class Table {
 				} else if(value['$like']){
 					where.push(`\`${field}\` LIKE '${value['$like']}')`);
 				} else if(value['$or']){
-					// where.push(`\`${field}\` OR '${value['$like']}')`);
+					
+					/*
+
+					$or: [
+						[field1, value1],
+						[field2, value2],
+					]
+
+					*/
+
+					let ORs = [];
+					for(let v of value['$or']){
+						ORs.push(`\`${v[0]}\` = '${v[1]}'`);
+					}
+					where.push(ORs.join(' OR '));
+					
 				} else {
 					if(typeof value === 'object'){
 						value = `'${JSON.stringify(value)}'`;
