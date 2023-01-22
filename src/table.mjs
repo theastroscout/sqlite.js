@@ -73,6 +73,8 @@ class Table {
 				let value = match[field];
 				if(value['$in']){
 					where.push(`\`${field}\` IN ('${value['$in'].join('\',\'')}')`);
+				} else if(value['$like']){
+					where.push(`\`${field}\` LIKE '${value['$like']}')`);
 				} else {
 					if(typeof value === 'object'){
 						value = `'${JSON.stringify(value)}'`;
