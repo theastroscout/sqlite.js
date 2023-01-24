@@ -14,6 +14,10 @@
 		"name": "Alexander Yermolenko",
 		"url": "https://surfy.one"
 	},
+	"keywords": [
+		"sqlite3",
+		"async"
+	],
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/theastroscout/SQLite/issues"

@@ -20,7 +20,6 @@ const sql = new SQLite('PATH TO DB FILE');
 <br/>
 
 ## Methods
-<br/>
 
 ### .run(query)
 ```js
@@ -236,9 +235,10 @@ let rows = await time_table.find();
 console.log(rows);
 
 ```
+<br/>
+<br/>
 
 ## Global method
-<br/>
 
 ### .get(query)
 Returns rows or false if error occured
