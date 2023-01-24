@@ -1,15 +1,17 @@
 import SQLite from '../src/sqlite.mjs';
-import tableTest from './table.mjs';
+// import tableTest from './table.mjs';
 
 const sql = new SQLite('test/test');
 
-let go = ['createTable', 'insert', 'table', 'get', 'all', 'drop', 'remove'];
+let go = ['createTable', 'insert', 'truncate', 'table', 'tableInsertOne', 'tableCount', 'tableOR', 'get', 'all', 'drop', 'remove'];
 
 /*
 
 Tests
 
 */
+
+let test_table;
 
 let tests = {
 
@@ -89,8 +91,8 @@ let tests = {
 
 		*/
 
-		await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data', 'Extra Data 1');");
-		result = await sql.get("SELECT * FROM test_table WHERE data='Some Data';");
+		await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Some Data 1', 'Extra Data 1');");
+		result = await sql.get("SELECT * FROM test_table WHERE data='Some Data 1';");
 		if(result.id !== 1){
 			return [false, 'Truncate table failed while checking'];
 		}
@@ -105,7 +107,66 @@ let tests = {
 	*/
 
 	table: async () => {
-		return await tableTest(sql);
+		test_table = sql.table('test_table');
+		if(!test_table){
+			return [false, 'Table failed'];
+		}
+		return [true, 'Table checked successfully'];
+		// return await tableTest(sql);
+	},
+
+	/*
+
+	Table Insert One
+
+	*/
+
+	tableInsertOne: async () => {
+		let result = await test_table.insertOne({data: 'Some Data 2', extra: 'Extra Data 2'});
+
+		if(!result){
+			return [false, 'Table > InsertOne failed'];
+		}
+		return [true, 'Table > InsertOne checked successfully. Inserted ID: '+result];
+	},
+
+	/*
+
+	Table Count
+
+	*/
+
+	tableCount: async () => {
+		let count = await test_table.count();
+
+		if(!count){
+			return [false, 'Table > Count failed'];
+		}
+		return [true, 'Table > Count checked successfully. Documents count: '+count];
+	},
+
+	/*
+
+	Table OR
+
+	*/
+
+	tableOR: async () => {
+		let result = await test_table.find({
+			$or: [
+				{
+					data: 'Some Data 1'
+				},
+				{
+					extra: 'Extra Data 2'
+				}
+			]
+		});
+
+		if(!result){
+			return [false, 'Table > Find > OR failed'];
+		}
+		return [true, 'Table > Find > OR checked successfully'];
 	},
 
 	/*

@@ -71,36 +71,64 @@ class Table {
 			let where = [];
 			for(let field in match){
 				let value = match[field];
-				if(value['$in']){
-					where.push(`\`${field}\` IN ('${value['$in'].join('\',\'')}')`);
-				} else if(value['$like']){
-					where.push(`\`${field}\` LIKE '${value['$like']}')`);
-				} else if(value['$or']){
-					
+				if(field === '$or'){
+
 					/*
 
-					$or: [
-						[field1, value1],
-						[field2, value2],
-					]
+					OR
 
 					*/
 
 					let ORs = [];
-					for(let v of value['$or']){
-						ORs.push(`\`${v[0]}\` = '${v[1]}'`);
+					for(let v of value){
+						let segments = [];
+						for(let f in v){
+							segments.push(`\`${f}\`='${v[f]}'`);
+						}
+						ORs.push(`(${segments.join(' AND ')})`);
 					}
-					where.push(ORs.join(' OR '));
+
+					where.push(`(${ORs.join(' OR ')})`);
 					
+				} else if(value['$in']){
+
+					/*
+
+					IN
+
+					*/
+
+					where.push(`\`${field}\` IN ('${value['$in'].join('\',\'')}')`);
+
+				} else if(value['$like']){
+
+					/*
+
+					LIKE
+
+					*/
+
+					where.push(`\`${field}\` LIKE '${value['$like']}')`);
+
 				} else {
+
+					/*
+
+					Default
+
+					*/
+
 					if(typeof value === 'object'){
 						value = `'${JSON.stringify(value)}'`;
 					} else if(typeof value === 'string'){
 						value = `'${value}'`;
 					}
+
 					where.push(`\`${field}\`=${value}`);
+					
 				}
 			}
+
 			query.push(`WHERE ${where.join(' AND ')}`);
 		}
 
