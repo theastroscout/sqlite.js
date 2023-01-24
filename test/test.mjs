@@ -3,7 +3,7 @@ import SQLite from '../src/sqlite.mjs';
 
 const sql = new SQLite('test/test');
 
-let go = ['createTable', 'insert', 'truncate', 'table', 'tableInsertOne', 'tableCount', 'tableOR', 'get', 'all', 'drop', 'remove'];
+let go = ['createTable', 'insert', 'truncate', 'table', 'tableInsertOne', 'tableCount', 'tableOR', 'tableIN', 'tableLIKE', 'get', 'all', 'drop', 'remove'];
 
 /*
 
@@ -50,7 +50,7 @@ let tests = {
 	*/
 
 	get: async () => {
-		let result = await sql.get("SELECT * FROM test_table WHERE data='Some Data' LIMIT 1;");
+		let result = await sql.get("SELECT * FROM test_table WHERE data='Some Data 1' LIMIT 1;");
 		if(!result){
 			return [false, 'Get failed'];
 		}
@@ -64,7 +64,7 @@ let tests = {
 	*/
 
 	all: async () => {
-		let result = await sql.all("SELECT * FROM test_table WHERE data='Some Data' LIMIT 2;");
+		let result = await sql.all("SELECT * FROM test_table LIMIT 2;");
 		console.log('@Get All (Limit 2):', result);
 		if(!result){
 			return [false, 'Get All failed'];
@@ -167,6 +167,44 @@ let tests = {
 			return [false, 'Table > Find > OR failed'];
 		}
 		return [true, 'Table > Find > OR checked successfully'];
+	},
+
+	/*
+
+	Table IN
+
+	*/
+
+	tableIN: async () => {
+		let result = await test_table.find({
+			data: {
+				$in: ['Some Data 1', 'Some Data 2']
+			}
+		});
+
+		if(!result || result.length !== 2){
+			return [false, 'Table > Find > IN failed'];
+		}
+		return [true, 'Table > Find > IN checked successfully'];
+	},
+
+	/*
+
+	Table LIKE
+
+	*/
+
+	tableLIKE: async () => {
+		let result = await test_table.find({
+			data: {
+				$like: 'Some Data%'
+			}
+		});
+
+		if(!result || result.length !== 2){
+			return [false, 'Table > Find > LIKE failed'];
+		}
+		return [true, 'Table > Find > LIKE checked successfully'];
 	},
 
 	/*

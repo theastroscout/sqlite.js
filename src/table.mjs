@@ -108,7 +108,7 @@ class Table {
 
 					*/
 
-					where.push(`\`${field}\` LIKE '${value['$like']}')`);
+					where.push(`\`${field}\` LIKE '${value['$like']}'`);
 
 				} else {
 
