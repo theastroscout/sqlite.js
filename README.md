@@ -32,7 +32,7 @@ await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Dat
 
 
 ### .table(table_name)
-Return Table instance for query processing
+Returns Table instance for query processing
 
 ```js
 
@@ -42,22 +42,17 @@ let table = await sql.table('test_table');
 
 
 ### .find(match, options)
-Find in a table
+Finds in a table
 
 ```js
-
-let table = await sql.table('test_table');
 
 let match = {
 	id: 1,
 	name: {
-		$like: 'Test'
-	},
-	data: {
 		$in: ['Test 1', 'Test 2']
 	}
 };
-// All matches for id=1 AND name IN ('Test 1', 'Test 2')
+// ...WHERE id=1 AND name IN ('Test 1', 'Test 2')
 
 let options = {
 	fields: ['id', 'name'],
@@ -71,11 +66,10 @@ let result = table.find(match, options);
 
 
 ### .findOne(match, options)
-Find one row in a table
+Finds one row in a table
 
 ```js
 
-let table = await sql.table('test_table');
 let match = {
 	id: 1
 };
@@ -89,9 +83,55 @@ let result = table.findOne(match, options);
 
 ````
 
+### Operators
+```js
+
+let match = {
+	id: 1,
+	name: 'Test 1'
+};
+
+// ...WHERE id=1 AND name='Test 1'
+
+match = {
+	id: 1,
+	name: {
+		$in: ['Test 1', 'Test 2']
+	}
+};
+
+// ...WHERE id=1 AND name IN ('Test 1', 'Test 2')
+
+match = {
+	id: 1,
+	name: {
+		$like: 'Test%'
+	}
+};
+
+// ...WHERE id=1 AND name LIKE 'Test%'
+
+match = {
+	id: 1,
+	$or: [
+		{
+			name: 'Name'
+		},
+		{
+			extra: 'Extra'
+		}
+	]
+};
+
+// ...WHERE id=1 AND ( name='Name' OR extra='Extra' )
+
+```
+
+<br/>
+<br/>
 
 ### .insert(values)
-Insert data into table
+Inserts data into table
 
 ```js
 
@@ -154,7 +194,7 @@ await test_table.update(match, update);
 
 
 ### .each(match, options, callback)
-Run the SQL query with parameters and calls the callback once for each row
+Runs the SQL query with parameters and calls the callback once for each row
 
 ```js
 
@@ -196,7 +236,7 @@ console.log(rows);
 <br/>
 
 ### .get(query)
-Return rows or false if error occured
+Returns rows or false if error occured
 
 ```js
 
@@ -207,7 +247,7 @@ console.log(rows);
 
 
 ### .all(query)
-Return rows or false if error occured
+Returns rows or false if error occured
 
 ```js
 
@@ -218,7 +258,7 @@ console.log(rows);
 
 
 ### .truncate(table_name)
-Truncate table and reset Auto Increment
+Truncates table and reset Auto Increment
 
 ```js
 
@@ -228,7 +268,7 @@ await sql.truncate("test_table");
 
 
 ### .remove(DB_name)
-Remove loaded DB file.
+Removes loaded DB file.
 
 ```js
 
@@ -245,7 +285,7 @@ let result = await sql.removeDB();
 
 
 ### .getSQLite3()
-Return original SQLite3 object
+Returns original SQLite3 object
 
 ```js
 
@@ -258,7 +298,7 @@ const sqlite3 = sql.getSQLite3();
 
 ## MIT License
 
-Copyright (c) Alexander Yermolenko • [surfy.one](https://surfy.one)
+Alexander Yermolenko • [surfy.one](https://surfy.one)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
