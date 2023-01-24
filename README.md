@@ -39,7 +39,7 @@ Returns Table instance for query processing
 let table = await sql.table('test_table');
 
 ````
-
+<br/>
 
 ### .find(match, options)
 Finds in a table
@@ -63,7 +63,7 @@ let options = {
 let result = table.find(match, options);
 
 ````
-
+<br/>
 
 ### .findOne(match, options)
 Finds one row in a table
@@ -82,6 +82,7 @@ let options = {
 let result = table.findOne(match, options);
 
 ````
+<br/>
 
 ### Operators
 ```js
@@ -93,6 +94,7 @@ let match = {
 
 // ...WHERE id=1 AND name='Test 1'
 
+
 match = {
 	id: 1,
 	name: {
@@ -102,6 +104,7 @@ match = {
 
 // ...WHERE id=1 AND name IN ('Test 1', 'Test 2')
 
+
 match = {
 	id: 1,
 	name: {
@@ -110,6 +113,7 @@ match = {
 };
 
 // ...WHERE id=1 AND name LIKE 'Test%'
+
 
 match = {
 	id: 1,
@@ -172,7 +176,7 @@ let IDs = await table.insert(rows);
 // IDs - Array [(int) Inserted_ID, (int) Inserted_ID, ...]
 
 ````
-
+<br/>
 
 ### .update(match, update)
 
@@ -191,7 +195,7 @@ await test_table.update(match, update);
 
 
 ```
-
+<br/>
 
 ### .each(match, options, callback)
 Runs the SQL query with parameters and calls the callback once for each row
@@ -216,6 +220,7 @@ table.each(match, options, (err, row) => {
 
 
 ```
+<br/>
 
 ## Date
 
@@ -243,8 +248,8 @@ Returns rows or false if error occured
 let rows = await sql.get("SELECT * FROM test_table WHERE id=1");
 console.log(rows);
 
-````
-
+```
+<br/>
 
 ### .all(query)
 Returns rows or false if error occured
@@ -254,8 +259,8 @@ Returns rows or false if error occured
 let rows = await sql.all("SELECT * FROM test_table");
 console.log(rows);
 
-````
-
+```
+<br/>
 
 ### .truncate(table_name)
 Truncates table and reset Auto Increment
@@ -264,8 +269,8 @@ Truncates table and reset Auto Increment
 
 await sql.truncate("test_table");
 
-````
-
+```
+<br/>
 
 ### .remove(DB_name)
 Removes loaded DB file.
@@ -281,7 +286,8 @@ let result = await sql.removeDB();
 	True If successful
 */
 
-````
+```
+<br/>
 
 
 ### .getSQLite3()
@@ -291,7 +297,7 @@ Returns original SQLite3 object
 
 const sqlite3 = sql.getSQLite3();
 
-````
+```
 
 <br />
 <br />
