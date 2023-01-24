@@ -59,7 +59,7 @@ let options = {
 	skip: 3
 };
 
-let result = table.find(match, options);
+let result = await table.find(match, options);
 
 ````
 <br/>
@@ -78,7 +78,7 @@ let options = {
 	skip: 3
 };
 
-let result = table.findOne(match, options);
+let result = await table.findOne(match, options);
 
 ````
 <br/>
