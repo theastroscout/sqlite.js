@@ -25,6 +25,7 @@ const sql = new SQLite('PATH TO DB FILE');
 ```js
 
 await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, data TEXT);");
+
 await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Data content');");
 
 ````
@@ -148,8 +149,8 @@ let row = {
 	}
 };
 
-let oneID = await table.insert(row);
-// oneID - Array [(int) Inserted_ID]
+let insertedIDs = await table.insert(row);
+// insertedIDs - Array [(int) Inserted_ID]
 
 // Multiple values
 let rows = [
