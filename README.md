@@ -15,7 +15,9 @@ npm install @surfy/sqlite
 // Import library
 import SQLite from "@surfy/sqlite";
 
-const sql = new SQLite('PATH TO DB FILE');
+const sql = new SQLite('PATH_TO_DB_FILE');
+// DB File will be created automatically if not exists
+
 ```
 <br/>
 
@@ -29,6 +31,7 @@ await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUT
 await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Data content');");
 
 ````
+<br/>
 
 
 ### .table(table_name)
@@ -42,7 +45,7 @@ let table = await sql.table('test_table');
 <br/>
 
 ### .find(match, options)
-Finds in a table
+Finds matches in a table
 
 ```js
 
@@ -139,8 +142,6 @@ Inserts data into table
 
 ```js
 
-let table = await sql.table('test_table');
-
 // Single value
 let row = {
 	name: 'Test name',
@@ -176,6 +177,22 @@ let IDs = await table.insert(rows);
 // IDs - Array [(int) Inserted_ID, (int) Inserted_ID, ...]
 
 ````
+<br/>
+
+### .insertOne(values)
+Inserts a single row into the table
+
+```js
+
+// Single value
+let row = {
+	name: 'Test name'
+};
+
+let insertedID = await table.insertOne(row);
+// insertedID - (int) Inserted_ID
+
+```
 <br/>
 
 ### .update(match, update)
@@ -226,10 +243,18 @@ table.each(match, options, (err, row) => {
 
 ```js
 await sql.run("CREATE TABLE IF NOT EXISTS time_table (id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT);");
+
 let time_table = await sql.table('time_table');
+
 let insertedIDs = await time_table.insert([
-	{ time: 'CURRENT_TIME' },
-	{ time: new Date() }
+	{
+		id: 1,
+		time: 'CURRENT_TIME'
+	},
+	{
+		id: 2,
+		time: new Date()
+	}
 ]);
 
 let rows = await time_table.find();
