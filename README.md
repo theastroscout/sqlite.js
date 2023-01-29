@@ -17,6 +17,7 @@ import SQLite from "@surfy/sqlite";
 
 const db = new SQLite('PATH_TO_DB_FILE');
 // DB File will be created automatically if not exists
+// e.g. /var/data/my_awesome_db.db
 
 ```
 <br/>
@@ -62,6 +63,14 @@ let options = {
 	limit: 2,
 	skip: 3
 };
+
+/*
+
+Return only id and name fields
+Skip first 3 rows
+Limit results to 2
+
+*/
 
 let result = await table.find(match, options);
 
@@ -138,23 +147,23 @@ match = {
 <br/>
 
 ### .insert(values)
-Inserts data into table
+Inserts data into the table
 
 ```js
 
 // Single value
-let row = {
+let newRow = {
 	name: 'Test name',
 	data: {
 		extraOption: 'Test Data'
 	}
 };
 
-let insertedIDs = await table.insert(row);
+let insertedIDs = await table.insert(newRow);
 // insertedIDs - Array [(int) Inserted_ID]
 
 // Multiple values
-let rows = [
+let newRows = [
 	{
 		name: 'Test name 1',
 		data: {
@@ -173,8 +182,8 @@ let rows = [
 	}
 ];
 
-let IDs = await table.insert(rows);
-// IDs - Array [(int) Inserted_ID, (int) Inserted_ID, ...]
+let IDs = await table.insert(newRows);
+// Return IDs - Array [(int) Inserted_ID, (int) Inserted_ID, ...]
 
 ````
 <br/>
@@ -185,11 +194,11 @@ Inserts a single row into the table
 ```js
 
 // Single value
-let row = {
+let newRow = {
 	name: 'Test name'
 };
 
-let insertedID = await table.insertOne(row);
+let insertedID = await table.insertOne(newRow);
 // insertedID - (int) Inserted_ID
 
 ```
@@ -258,7 +267,22 @@ let insertedIDs = await time_table.insert([
 ]);
 
 let rows = await time_table.find();
-console.log(rows);
+
+/*
+
+Result
+rows = [
+	{
+		id: 1,
+		time: JS Date Object
+	},
+	{
+		id: 2,
+		time: JS Date Object
+	}
+]
+
+*/
 
 ```
 <br/>
@@ -272,7 +296,6 @@ Returns rows or false if error occured
 ```js
 
 let rows = await db.get("SELECT * FROM test_table WHERE id=1");
-console.log(rows);
 
 ```
 <br/>
@@ -283,7 +306,6 @@ Returns rows or false if error occured
 ```js
 
 let rows = await db.all("SELECT * FROM test_table");
-console.log(rows);
 
 ```
 <br/>
@@ -293,13 +315,15 @@ Truncates table and reset Auto Increment
 
 ```js
 
-await db.truncate("test_table");
+let result = await db.truncate('test_table');
+
+// @Result True or False
 
 ```
 <br/>
 
 ### .remove(DB_name)
-Removes loaded DB file.
+Removes loaded DB file
 
 ```js
 
