@@ -15,7 +15,7 @@ npm install @surfy/sqlite
 // Import library
 import SQLite from "@surfy/sqlite";
 
-const sql = new SQLite('PATH_TO_DB_FILE');
+const db = new SQLite('PATH_TO_DB_FILE');
 // DB File will be created automatically if not exists
 
 ```
@@ -26,9 +26,9 @@ const sql = new SQLite('PATH_TO_DB_FILE');
 ### .run(query)
 ```js
 
-await sql.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, data TEXT);");
+await db.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, data TEXT);");
 
-await sql.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Data content');");
+await db.run("INSERT OR IGNORE INTO test_table VALUES(NULL, 'Test Record', 'Data content');");
 
 ````
 <br/>
@@ -39,7 +39,7 @@ Returns Table instance for query processing
 
 ```js
 
-let table = await sql.table('test_table');
+let table = await db.table('test_table');
 
 ````
 <br/>
@@ -219,7 +219,7 @@ Runs the SQL query with parameters and calls the callback once for each row
 
 ```js
 
-let table = await sql.table('test_table');
+let table = await db.table('test_table');
 
 let match = {
 	name: 'Test name'
@@ -242,9 +242,9 @@ table.each(match, options, (err, row) => {
 ## Date
 
 ```js
-await sql.run("CREATE TABLE IF NOT EXISTS time_table (id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT);");
+await db.run("CREATE TABLE IF NOT EXISTS time_table (id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT);");
 
-let time_table = await sql.table('time_table');
+let time_table = await db.table('time_table');
 
 let insertedIDs = await time_table.insert([
 	{
@@ -271,7 +271,7 @@ Returns rows or false if error occured
 
 ```js
 
-let rows = await sql.get("SELECT * FROM test_table WHERE id=1");
+let rows = await db.get("SELECT * FROM test_table WHERE id=1");
 console.log(rows);
 
 ```
@@ -282,7 +282,7 @@ Returns rows or false if error occured
 
 ```js
 
-let rows = await sql.all("SELECT * FROM test_table");
+let rows = await db.all("SELECT * FROM test_table");
 console.log(rows);
 
 ```
@@ -293,7 +293,7 @@ Truncates table and reset Auto Increment
 
 ```js
 
-await sql.truncate("test_table");
+await db.truncate("test_table");
 
 ```
 <br/>
@@ -303,7 +303,7 @@ Removes loaded DB file.
 
 ```js
 
-let result = await sql.removeDB();
+let result = await db.removeDB();
 
 /*
 
@@ -321,7 +321,7 @@ Returns original SQLite3 object
 
 ```js
 
-const sqlite3 = sql.getSQLite3();
+const sqlite3 = db.getSQLite3();
 
 ```
 
