@@ -22,6 +22,8 @@ class SQLite {
 	constructor(path){
 		this.path = path;
 		this.db = new sqlite3.Database(this.path);
+
+		this.map = ['getSQLite3', 'get', 'all', 'run', 'drop', 'truncate', 'removeDB', 'table', 'prepare', 'each', 'error', 'parse', 'parseValue', 'extract', 'extractField'];
 	}
 
 	/*
