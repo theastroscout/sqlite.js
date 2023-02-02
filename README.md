@@ -10,12 +10,25 @@ npm install @surfy/sqlite
 
 ## Usage
 
+### ES6
 ```js
 
 // Import library
 import SQLite from "@surfy/sqlite";
 
 const db = new SQLite('PATH_TO_DB_FILE');
+// DB File will be created automatically if not exists
+// e.g. /var/data/my_awesome_db.db
+
+```
+<br/>
+
+### CommonJS
+```js
+
+// Import library
+const SQLite = require('@surfy/sqlite');
+const db = await SQLite('PATH_TO_DB_FILE');
 // DB File will be created automatically if not exists
 // e.g. /var/data/my_awesome_db.db
 
