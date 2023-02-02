@@ -1,3 +1,5 @@
+console.log('\n== ES6 Test ==\n\n')
+
 import SQLite from '../src/sqlite.mjs';
 // import tableTest from './table.mjs';
 

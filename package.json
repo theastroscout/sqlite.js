@@ -2,9 +2,10 @@
 	"name": "@surfy/sqlite",
 	"version": "1.1.0",
 	"description": "Asynchronous Library for sqlite3",
-	"main": "src/sqlite.mjs",
+	"main": "src/sqlite.js",
+	"module": "src/sqlite.mjs",
 	"scripts": {
-		"test": "node test/test.mjs"
+		"test": "node test/test.mjs; node test/test.js;"
 	},
 	"repository": {
 		"type": "git",
