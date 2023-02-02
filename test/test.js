@@ -14,7 +14,7 @@ const test = async () => {
 	let result = await db.run("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT NOT NULL, extra TEXT);");
 	console.log('Create DB', result);
 
-	result = db.removeDB();
+	result = await db.removeDB();
 	console.log('Remove DB', result);
 };
 test();
