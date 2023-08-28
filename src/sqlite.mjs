@@ -244,7 +244,7 @@ class SQLite {
 		let escaped = type !== 'array';
 
 		for(let field in fields){
-			let v = this.parseValue(fields[field], escaped);
+			let v = this.parseValue(fields[field], escaped);			
 
 			if(type === 'set'){
 				list.push(`\`${field}\`=${v}`);
